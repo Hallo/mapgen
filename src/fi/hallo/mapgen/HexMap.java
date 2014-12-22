@@ -57,26 +57,44 @@ public class HexMap {
         int lengthHill = getLengthOfType(Type.HILL, 0, y, x);
         int lengthForest = getLengthOfType(Type.FOREST, 0, y, x);
         int lengthWater = getLengthOfType(Type.WATER, 0, y, x);
+        int lengthWasteland = getLengthOfType(Type.WASTELAND, 0, y, x);
+        int lengthPlain = getLengthOfType(Type.PLAIN, 0, y, x);
+        int lengthGrassland = getLengthOfType(Type.GRASSLAND, 0, y, x);
 
         if (lengthMountain > 0 && typePortion[Type.MOUNTAIN.ordinal()] > 0) {
-            double weight = 1.5 - (lengthMountain * 0.1);
+            double weight = 1.2 - (lengthMountain * 0.1);
             if (rand.nextDouble() < weight) {
                 return Type.MOUNTAIN;
             }
         } else if (lengthHill > 0 && typePortion[Type.HILL.ordinal()] > 0) {
-            double weight = 1.5 - (lengthHill * 0.1);
+            double weight = 1.2 - (lengthHill * 0.1);
             if (rand.nextDouble() < weight) {
                 return Type.HILL;
             }
         } else if (lengthForest > 0 && typePortion[Type.FOREST.ordinal()] > 0) {
-            double weight = 1.5 - (lengthForest * 0.1);
+            double weight = 1.2 - (lengthForest * 0.1);
             if (rand.nextDouble() < weight) {
                 return Type.FOREST;
             }
         } else if (lengthWater > 0 && typePortion[Type.WATER.ordinal()] > 0) {
-            double weight = 1.5 - (lengthWater * 0.1);
+            double weight = 1.2 - (lengthWater * 0.1);
             if (rand.nextDouble() < weight) {
                 return Type.WATER;
+            }
+        } else if (lengthWasteland > 0 && typePortion[Type.WASTELAND.ordinal()] > 0) {
+            double weight = 1.2 - (lengthWasteland * 0.1);
+            if (rand.nextDouble() < weight) {
+                return Type.WASTELAND;
+            }
+        } else if (lengthPlain > 0 && typePortion[Type.PLAIN.ordinal()] > 0) {
+            double weight = 1.2 - (lengthPlain * 0.1);
+            if (rand.nextDouble() < weight) {
+                return Type.PLAIN;
+            }
+        } else if (lengthGrassland > 0 && typePortion[Type.GRASSLAND.ordinal()] > 0) {
+            double weight = 1.2 - (lengthGrassland * 0.1);
+            if (rand.nextDouble() < weight) {
+                return Type.GRASSLAND;
             }
         }
 
