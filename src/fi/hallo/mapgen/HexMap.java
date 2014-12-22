@@ -43,6 +43,9 @@ public class HexMap {
     }
 
     private String getRandomType(int i) {
+        if (Type.values()[i].equals(Type.WATER)) {
+            return "~";
+        }
         return Type.values()[i].toString().substring(0, 1);
     }
 
