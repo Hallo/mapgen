@@ -29,24 +29,25 @@ public class HexMap {
 
     private void divideIntoPortions(int[] typePortion) {
         Random rand = new Random();
-        int i = 0;
+        Type value;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 do {
-                    i = rand.nextInt(7);
-                } while (typePortion[i] < 1);
-                System.out.print(getRandomType(i));
-                typePortion[i] -= 1;
+                    value = Type.values()[rand.nextInt(7)];
+                } while (typePortion[value.ordinal()] < 1);
+                map[y][x] = new Hex(value);
+                System.out.print(getRandomType(value));
+                typePortion[value.ordinal()] -= 1;
             }
             System.out.println();
         }
     }
 
-    private String getRandomType(int i) {
-        if (Type.values()[i].equals(Type.WATER)) {
+    private String getRandomType(Type value) {
+        if (value.equals(Type.WATER)) {
             return "~";
         }
-        return Type.values()[i].toString().substring(0, 1);
+        return value.toString().substring(0, 1);
     }
 
 
