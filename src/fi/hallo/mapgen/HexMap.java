@@ -11,6 +11,7 @@ public class HexMap {
     private int height, width, total;
     private Hex[][] map;
     private Region region;
+    private int[] typePortion;
 
     public HexMap(int height, int width, Region region) {
         this.height = height;
@@ -22,18 +23,17 @@ public class HexMap {
     }
 
     public void createMap() {
-        int[] typePortion = hexTypePortion();
+        typePortion = hexTypePortion();
         divideIntoPortions(typePortion);
 
     }
 
     private void divideIntoPortions(int[] typePortion) {
-        Random rand = new Random();
         Type value;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 do {
-                    value = Type.values()[rand.nextInt(7)];
+                    value = getWeightedRandomType(y, x);
                 } while (typePortion[value.ordinal()] < 1);
                 map[y][x] = new Hex(value);
                 System.out.print(getRandomType(value));
@@ -48,6 +48,52 @@ public class HexMap {
             return "~";
         }
         return value.toString().substring(0, 1);
+    }
+
+    private Type getWeightedRandomType(int y, int x) {
+        Random rand = new Random();
+
+        int lengthMountain = getLengthOfType(Type.MOUNTAIN, 0, y, x);
+        int lengthHill = getLengthOfType(Type.HILL, 0, y, x);
+        int lengthForest = getLengthOfType(Type.FOREST, 0, y, x);
+        int lengthWater = getLengthOfType(Type.WATER, 0, y, x);
+
+        if (lengthMountain > 0 && typePortion[Type.MOUNTAIN.ordinal()] > 0) {
+            double weight = 1.5 - (lengthMountain * 0.1);
+            if (rand.nextDouble() < weight) {
+                return Type.MOUNTAIN;
+            }
+        } else if (lengthHill > 0 && typePortion[Type.HILL.ordinal()] > 0) {
+            double weight = 1.5 - (lengthHill * 0.1);
+            if (rand.nextDouble() < weight) {
+                return Type.HILL;
+            }
+        } else if (lengthForest > 0 && typePortion[Type.FOREST.ordinal()] > 0) {
+            double weight = 1.5 - (lengthForest * 0.1);
+            if (rand.nextDouble() < weight) {
+                return Type.FOREST;
+            }
+        } else if (lengthWater > 0 && typePortion[Type.WATER.ordinal()] > 0) {
+            double weight = 1.5 - (lengthWater * 0.1);
+            if (rand.nextDouble() < weight) {
+                return Type.WATER;
+            }
+        }
+
+        return Type.values()[rand.nextInt(7)];
+    }
+
+    private int getLengthOfType(Type type, int i, int y, int x) {
+
+        if (y > 0 && map[y-1][x] != null && map[y-1][x].getType().equals(type)) {
+            i = getLengthOfType(type, i, y-1, x) + 1;
+        } else if (y > 0 && x < width-1 && map[y-1][x+1] != null && map[y-1][x+1].getType().equals(type)) {
+            i = getLengthOfType(type, i, y-1, x+1) + 1;
+        } else if (x > 0 && map[y][x-1] != null && map[y][x-1].getType().equals(type)) {
+            i = getLengthOfType(type, i, y, x-1) + 1;
+        }
+
+        return i;
     }
 
 

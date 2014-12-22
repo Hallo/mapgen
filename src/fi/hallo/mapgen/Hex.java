@@ -10,4 +10,10 @@ public class Hex {
     public Hex(Type type) {
         this.type = type;
     }
+
+    public Type getType() {
+        return type;
+    }
+
+
 }
