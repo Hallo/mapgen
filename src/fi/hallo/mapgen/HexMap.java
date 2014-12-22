@@ -32,7 +32,9 @@ public class HexMap {
         int i = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                i = rand.nextInt(7);
+                do {
+                    i = rand.nextInt(7);
+                } while (typePortion[i] < 1);
                 System.out.print(getRandomType(i));
                 typePortion[i] -= 1;
             }
