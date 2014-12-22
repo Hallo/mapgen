@@ -1,6 +1,9 @@
 package fi.hallo.mapgen;
 
 import java.math.BigDecimal;
+import java.util.Random;
+
+import fi.hallo.mapgen.Hex.Type;
 
 public class HexMap {
 
@@ -20,7 +23,25 @@ public class HexMap {
 
     public void createMap() {
         int[] typePortion = hexTypePortion();
+        divideIntoPortions(typePortion);
 
+    }
+
+    private void divideIntoPortions(int[] typePortion) {
+        Random rand = new Random();
+        int i = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                i = rand.nextInt(7);
+                System.out.print(getRandomType(i));
+                typePortion[i] -= 1;
+            }
+            System.out.println();
+        }
+    }
+
+    private String getRandomType(int i) {
+        return Type.values()[i].toString().substring(0, 1);
     }
 
 
