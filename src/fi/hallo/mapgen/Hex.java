@@ -209,18 +209,14 @@ public class Hex {
         }
     }
 
-    @Override
-    public String toString(){
-        StringBuilder me = new StringBuilder("Type: ");
-
-        me.append(this.type);
-        me.append("\nFeatures: ");
+    public String[] listFeatures(){
+        StringBuilder me = new StringBuilder();
         for (int i = 0; i < features.length-1; i++) {
-            me.append(features[i] + ", ");
+            me.append(" -" + features[i] + ", ");
 
         }
-        me.append(features[features.length-1]);
+        me.append(" -" + features[features.length-1]);
 
-        return me.toString();
+        return me.toString().split(",");
     }
 }
