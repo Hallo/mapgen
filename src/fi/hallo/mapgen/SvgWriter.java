@@ -6,8 +6,13 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 public class SvgWriter {
@@ -27,7 +32,45 @@ public class SvgWriter {
         svg.setAttribute("height", "50in");
         svg.setAttribute("version", "1.1");
 
-        svg.addContent(new Element("g"));
+        Element graph = new Element("g");
+        graph.setAttribute("id", "hexes");
+
+        int i = 0;
+        int[] ax = {0, 100, 150, 100, -100, -150};
+        int[] aye = {150, -150, 0, 150, 150, 0};
+        int[] ayo = {300, -150, 0, 150, 150, 0};
+        for (int y = 0; y < hexMap.getHeight(); y++) {
+            for (int x = 0; x < hexMap.getWidth(); x++) {
+                Element polygon = new Element("polygon");
+                polygon.setAttribute("id", i + "");
+                polygon.setAttribute("style", "fill:none;stroke:#000000;stroke-width:1.5px");
+                if (x%2 == 0) {
+                    int sx = x*250;
+                    int sy = y*300;
+                    StringBuilder points = new StringBuilder();
+                    for (int j = 0; j < 6; j++) {
+                        sx += ax[j];
+                        sy += aye[j];
+                        points.append(sx + "," + sy + " ");
+                    }
+                    polygon.setAttribute("points", points.toString().trim());
+                } else {
+                    int sx = x*250;
+                    int sy = y*300;
+                    StringBuilder points = new StringBuilder();
+                    for (int j = 0; j < 6; j++) {
+                        sx += ax[j];
+                        sy += ayo[j];
+                        points.append(sx + "," + sy + " ");
+                    }
+                    polygon.setAttribute("points", points.toString().trim());
+                }graph.addContent(polygon);
+                i += 1;
+            }
+        }
+
+
+        svg.addContent(graph);
 
         try {
             writeOut();
@@ -42,7 +85,7 @@ public class SvgWriter {
 
     private void writeOut(String fileName) throws IOException {
         DocType docType = new DocType(svg.getName());
-        docType.setPublicID("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
+        docType.setPublicID("-//W3C//DTD SVG 1.1//EN http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
         Document doc = new Document(svg, docType);
         XMLOutputter serializer = new XMLOutputter();
         Format f = serializer.getFormat();
@@ -50,9 +93,41 @@ public class SvgWriter {
         f.setIndent("  ");
         f.setLineSeparator("\n");
         f.setEncoding("UTF-8");
-        f.setExpandEmptyElements(false);
+        f.setExpandEmptyElements(true);
         serializer.setFormat(f);
-        serializer.output(doc, new PrintWriter(new FileWriter(fileName)));
+        File file = new File(fileName);
+        serializer.output(doc, new PrintWriter(new FileWriter(file)));
+        format(file);
+    }
+
+    public void format(File file) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        String text;
+        FileInputStream fs = new FileInputStream(file);
+        InputStreamReader in = new InputStreamReader(fs);
+        BufferedReader br = new BufferedReader(in);
+        while (true) {
+            text = br.readLine();
+            if (text == null)
+                break;
+            if (text.contains("-//W3C")) {
+                text = "\n" +
+                        "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"50in\" height=\"50in\" version=\"1.1\">";
+            }
+            if (text.contains("xmlns=\"\" ")) {
+                text = text.replace("xmlns=\"\" ", "");
+            }
+            text = text.replaceAll("</polygon>", "</polygon>\n    ");
+
+            sb.append(text + "\n");
+        }
+        fs.close();
+        in.close();
+        br.close();
+        FileWriter writer = new FileWriter(file);
+        BufferedWriter output = new BufferedWriter(writer);
+        output.write(sb.toString());
+        output.close();
     }
 
 }

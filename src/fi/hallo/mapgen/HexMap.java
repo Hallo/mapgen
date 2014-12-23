@@ -208,4 +208,12 @@ public class HexMap {
         return region;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
 }
