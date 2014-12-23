@@ -17,16 +17,22 @@ import java.io.PrintWriter;
 
 public class SvgWriter {
 
+    private final boolean useColor;
     private HexMap hexMap;
     private Element svg;
 
-    public SvgWriter(HexMap hm) {
+    public SvgWriter(HexMap hm, boolean useColor) {
         this.hexMap = hm;
         this.svg = new Element("svg", "http://www.w3.org/2000/svg");
+        this.useColor = useColor;
     }
 
 
     public void writeMap(){
+
+
+        String[] color = {"limegreen","burlywood","forestgreen","darkgrey","darkkhaki","navy","darkolivegreen", "white"};
+        int colorCode = 7;
 
         svg.setAttribute("width", (hexMap.getWidth()*350) + "px");
         svg.setAttribute("height", (hexMap.getHeight()*300) + "px");
@@ -45,9 +51,13 @@ public class SvgWriter {
             for (int x = 0; x < hexMap.getWidth(); x++) {
                 Element polygon = new Element("polygon");
                 polygon.setAttribute("id", i + "");
-                polygon.setAttribute("style", "fill:none;stroke:#000000;stroke-width:1.5px");
+                if (useColor) {
+                    colorCode = hexMap.getMap()[y][x].getType().ordinal();
+                }
+                polygon.setAttribute("style", "fill:" + color[colorCode] + ";stroke:#000000;stroke-width:1.5px");
                 Element text = new Element("text");
                 text.setAttribute("text-anchor", "left");
+                text.setAttribute("font-wight", "bold");
                 text.setAttribute("font-family", "Helvetica");
                 text.setAttribute("fill", "#000000");
                 int sx = x*250;
@@ -74,13 +84,14 @@ public class SvgWriter {
                 }
                 Element tspan = new Element("tspan");
                 tspan.setAttribute("x", (x*250+115) + "");
+                tspan.setAttribute("font-size", "18");
                 tspan.setAttribute("dy", "1.2em");
                 tspan.addContent(hexMap.getMap()[y][x].getType().toString());
                 text.addContent(tspan);
                 for (String s : hexMap.getMap()[y][x].listFeatures()) {
                     tspan = new Element("tspan");
                     tspan.setAttribute("x", (x * 250 + 115) + "");
-                    tspan.setAttribute("font-size", "14");
+                    tspan.setAttribute("font-size", "16");
                     tspan.setAttribute("dy", "1.2em");
                     tspan.addContent(s);
                     text.addContent(tspan);
