@@ -28,12 +28,14 @@ public class SvgWriter {
 
     public void writeMap(){
 
-        svg.setAttribute("width", "50in");
-        svg.setAttribute("height", "50in");
+        svg.setAttribute("width", (hexMap.getWidth()*350) + "px");
+        svg.setAttribute("height", (hexMap.getHeight()*300) + "px");
         svg.setAttribute("version", "1.1");
 
         Element graph = new Element("g");
+        Element label = new Element("g");
         graph.setAttribute("id", "hexes");
+        label.setAttribute("id", "labels");
 
         int i = 0;
         int[] ax = {0, 100, 150, 100, -100, -150};
@@ -44,9 +46,15 @@ public class SvgWriter {
                 Element polygon = new Element("polygon");
                 polygon.setAttribute("id", i + "");
                 polygon.setAttribute("style", "fill:none;stroke:#000000;stroke-width:1.5px");
+                Element text = new Element("text");
+                text.setAttribute("text-anchor", "left");
+                text.setAttribute("font-family", "Helvetica");
+                text.setAttribute("fill", "#000000");
+                int sx = x*250;
+                int sy = y*300;
+                text.setAttribute("x", (sx + 105) + "");
                 if (x%2 == 0) {
-                    int sx = x*250;
-                    int sy = y*300;
+                    text.setAttribute("y", (sy + 120) + "");
                     StringBuilder points = new StringBuilder();
                     for (int j = 0; j < 6; j++) {
                         sx += ax[j];
@@ -55,8 +63,7 @@ public class SvgWriter {
                     }
                     polygon.setAttribute("points", points.toString().trim());
                 } else {
-                    int sx = x*250;
-                    int sy = y*300;
+                    text.setAttribute("y", (sy + 270) + "");
                     StringBuilder points = new StringBuilder();
                     for (int j = 0; j < 6; j++) {
                         sx += ax[j];
@@ -64,13 +71,29 @@ public class SvgWriter {
                         points.append(sx + "," + sy + " ");
                     }
                     polygon.setAttribute("points", points.toString().trim());
-                }graph.addContent(polygon);
+                }
+                Element tspan = new Element("tspan");
+                tspan.setAttribute("x", (x*250+115) + "");
+                tspan.setAttribute("dy", "1.2em");
+                tspan.addContent(hexMap.getMap()[y][x].getType().toString());
+                text.addContent(tspan);
+                for (String s : hexMap.getMap()[y][x].listFeatures()) {
+                    tspan = new Element("tspan");
+                    tspan.setAttribute("x", (x * 250 + 115) + "");
+                    tspan.setAttribute("font-size", "14");
+                    tspan.setAttribute("dy", "1.2em");
+                    tspan.addContent(s);
+                    text.addContent(tspan);
+                }
+                label.addContent(text);
+                graph.addContent(polygon);
                 i += 1;
             }
         }
 
 
         svg.addContent(graph);
+        svg.addContent(label);
 
         try {
             writeOut();
