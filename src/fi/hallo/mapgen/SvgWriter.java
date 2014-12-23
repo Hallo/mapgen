@@ -135,7 +135,7 @@ public class SvgWriter {
                 break;
             if (text.contains("-//W3C")) {
                 text = "\n" +
-                        "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"50in\" height=\"50in\" version=\"1.1\">";
+                        "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + hexMap.getWidth()*270 + "\" height=\"" + hexMap.getHeight()*320 + "\" version=\"1.1\">";
             }
             if (text.contains("xmlns=\"\" ")) {
                 text = text.replace("xmlns=\"\" ", "");
