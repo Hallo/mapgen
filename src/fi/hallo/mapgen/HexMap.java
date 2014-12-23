@@ -200,5 +200,12 @@ public class HexMap {
                 new BigDecimal(total*0.1430).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
     }
 
+    public Hex[][] getMap() {
+        return map;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
 
 }
