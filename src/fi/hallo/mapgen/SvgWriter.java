@@ -31,7 +31,7 @@ public class SvgWriter {
     public void writeMap(){
 
 
-        String[] color = {"limegreen","burlywood","forestgreen","darkgrey","darkkhaki","navy","darkolivegreen", "white"};
+        String[] color = {"limegreen","burlywood","forestgreen","darkgrey","darkkhaki","royalblue","darkolivegreen", "white"};
         int colorCode = 7;
 
         svg.setAttribute("width", (hexMap.getWidth()*350) + "px");
