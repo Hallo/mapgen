@@ -92,7 +92,7 @@ public class SvgWriter {
                     tspan = new Element("tspan");
                     tspan.setAttribute("x", (x * 250 + 115) + "");
                     tspan.setAttribute("font-size", "16");
-                    tspan.setAttribute("dy", "1.2em");
+                    tspan.setAttribute("dy", "25");
                     tspan.addContent(s);
                     text.addContent(tspan);
                 }

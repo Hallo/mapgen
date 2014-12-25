@@ -2,3 +2,5 @@ mapgen.iml
 .DS_Store
 out/
 *.svg
+*.eps
+*.pdf
