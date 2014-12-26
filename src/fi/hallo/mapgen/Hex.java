@@ -212,10 +212,10 @@ public class Hex {
     public String[] listFeatures(){
         StringBuilder me = new StringBuilder();
         for (int i = 0; i < features.length-1; i++) {
-            me.append(" -" + features[i] + ", ");
+            me.append(features[i] + ",");
 
         }
-        me.append(" -" + features[features.length-1]);
+        me.append(features[features.length-1]);
 
         return me.toString().split(",");
     }

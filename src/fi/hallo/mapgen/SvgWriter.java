@@ -17,22 +17,22 @@ import java.io.PrintWriter;
 
 public class SvgWriter {
 
-    private final boolean useColor;
+    private final boolean useText;
     private HexMap hexMap;
     private Element svg;
 
-    public SvgWriter(HexMap hm, boolean useColor) {
+    public SvgWriter(HexMap hm, boolean useText) {
         this.hexMap = hm;
         this.svg = new Element("svg", "http://www.w3.org/2000/svg");
-        this.useColor = useColor;
+        this.useText = useText;
     }
 
 
     public void writeMap(){
 
 
-        String[] color = {"limegreen","burlywood","forestgreen","darkgrey","darkkhaki","royalblue","darkolivegreen", "white"};
-        int colorCode = 7;
+        String[] color = {"limegreen","burlywood","forestgreen","darkgrey","darkkhaki","royalblue","darkolivegreen"};
+        int colorCode;
 
         svg.setAttribute("width", (hexMap.getWidth()*350) + "px");
         svg.setAttribute("height", (hexMap.getHeight()*300) + "px");
@@ -51,9 +51,7 @@ public class SvgWriter {
             for (int x = 0; x < hexMap.getWidth(); x++) {
                 Element polygon = new Element("polygon");
                 polygon.setAttribute("id", i + "");
-                if (useColor) {
-                    colorCode = hexMap.getMap()[y][x].getType().ordinal();
-                }
+                colorCode = hexMap.getMap()[y][x].getType().ordinal();
                 polygon.setAttribute("style", "fill:" + color[colorCode] + ";stroke:#000000;stroke-width:1.5px");
                 Element text = new Element("text");
                 text.setAttribute("text-anchor", "left");
@@ -83,17 +81,18 @@ public class SvgWriter {
                     polygon.setAttribute("points", points.toString().trim());
                 }
                 Element tspan = new Element("tspan");
-                tspan.setAttribute("x", (x*250+115) + "");
-                tspan.setAttribute("font-size", "18");
-                tspan.setAttribute("dy", "1.2em");
-                tspan.addContent(hexMap.getMap()[y][x].getType().toString());
-                text.addContent(tspan);
+                tspan.setAttribute("x", (x*250+105) + "");
+                tspan.setAttribute("font-size", "38");
+                //tspan.addContent(hexMap.getMap()[y][x].getType().toString());
+                //text.addContent(tspan);
                 for (String s : hexMap.getMap()[y][x].listFeatures()) {
                     tspan = new Element("tspan");
-                    tspan.setAttribute("x", (x * 250 + 115) + "");
-                    tspan.setAttribute("font-size", "16");
-                    tspan.setAttribute("dy", "25");
-                    tspan.addContent(s);
+                    tspan.setAttribute("x", (x * 250 + 105) + "");
+                    tspan.setAttribute("font-size", "38");
+                    tspan.setAttribute("dy", "35");
+                    if (!s.contains("NONE")){
+                        tspan.addContent(s);
+                    }
                     text.addContent(tspan);
                 }
                 label.addContent(text);
@@ -104,9 +103,14 @@ public class SvgWriter {
 
 
         svg.addContent(graph);
-        svg.addContent(label);
+        if (useText) {
+            svg.addContent(label);
+        }
 
         try {
+            if (useText) {
+                writeOut(hexMap.getRegion().toString() + "_text_" + System.currentTimeMillis() + ".svg");
+            }
             writeOut();
         } catch (Exception e) {
 
