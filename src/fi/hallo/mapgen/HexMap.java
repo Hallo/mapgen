@@ -7,7 +7,7 @@ import fi.hallo.mapgen.Hex.Type;
 
 public class HexMap {
 
-    public enum Region {NORTH, RIVERLAND, CROWNLAND, VALE, WESTERLAND, IRON, DORNE, REACH, STORMLAND};
+    public enum Region {NORTH, RIVERLAND, CROWNLAND, VALE, WESTERLAND, IRON, DORNE, REACH, STORMLAND, FOO};
     private int height, width, total;
     private Hex[][] map;
     private Region region;
@@ -189,8 +189,8 @@ public class HexMap {
                         new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.05).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                        new BigDecimal(total*0.05).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                        new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
+                        new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                        new BigDecimal(total*0.15).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
             case IRON:
                 return new int[]{new BigDecimal(total*0.05).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.05).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
@@ -224,13 +224,13 @@ public class HexMap {
                         new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.2).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
         }
-        return new int[] {new BigDecimal(total*0.1428).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                new BigDecimal(total*0.1428).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                new BigDecimal(total*0.1428).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                new BigDecimal(total*0.1428).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                new BigDecimal(total*0.1430).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                new BigDecimal(total*0.1428).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                new BigDecimal(total*0.1430).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
+        return new int[] {new BigDecimal(total*0.1440).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                new BigDecimal(total*0.1440).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                new BigDecimal(total*0.1440).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                new BigDecimal(total*0.1440).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                new BigDecimal(total*0.1440).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                new BigDecimal(total*0.1440).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                new BigDecimal(total*0.1440).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
     }
 
     public Hex[][] getMap() {
