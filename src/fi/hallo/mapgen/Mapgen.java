@@ -6,7 +6,7 @@ public class Mapgen {
 
 
     public static void main(String[] args) {
-        HexMap hm = new HexMap(38, 31, Region.FOO);
+        HexMap hm = new HexMap(38, 31, Region.WESTERLAND);
         hm.createMap();
 
         SvgWriter writer = new SvgWriter(hm, true);

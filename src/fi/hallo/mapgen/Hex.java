@@ -45,6 +45,10 @@ public class Hex {
         //Tällä hetkellä ~25% hexoista omaa featuren(pl vesi.)
         Random rand = new Random();
         double val;
+        double gold = 1;
+        if (HexMap.getRegion().equals(HexMap.Region.WESTERLAND)) {
+            gold = 1.333;
+        }
 
         if (type == Type.GRASSLAND) {
             val = rand.nextDouble();
@@ -83,7 +87,7 @@ public class Hex {
             }
             //Iron 0.075
             val = rand.nextDouble();
-            if (val < 0.025){
+            if (val < 0.025*gold){
                 addFeature(Feature.GOLD);
             }
             //Gold 0.025
@@ -121,7 +125,7 @@ public class Hex {
             }
             //Iron 0.1
             val = rand.nextDouble();
-            if (val < 0.05){
+            if (val < 0.05*gold){
                 addFeature(Feature.GOLD);
             }
             //Gold 0.05
@@ -191,6 +195,17 @@ public class Hex {
                 }
             }
             //Wood 0.1, Weirwood 0.02(if forest)
+        }
+        if (gold > 1 && rand.nextDouble() < 0.005) {
+            boolean noGold = true;
+            for (Feature f : features) {
+                if (f.equals(Feature.GOLD)) {
+                    noGold = false;
+                }
+            }
+            if (noGold) {
+                addFeature(Feature.GOLD);
+            }
         }
     }
 

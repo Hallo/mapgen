@@ -10,7 +10,7 @@ public class HexMap {
     public enum Region {NORTH, RIVERLAND, CROWNLAND, VALE, WESTERLAND, IRON, DORNE, REACH, STORMLAND, FOO};
     private int height, width, total;
     private Hex[][] map;
-    private Region region;
+    private static Region region;
     private int[] typePortion;
 
     public HexMap(int height, int width, Region region) {
@@ -185,12 +185,12 @@ public class HexMap {
                         new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
             case WESTERLAND:
                 return new int[]{new BigDecimal(total*0.2).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                        new BigDecimal(total*0.3).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                        new BigDecimal(total*0.2).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                        new BigDecimal(total*0.05).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
-                        new BigDecimal(total*0.15).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
+                        new BigDecimal(total*0.1).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
+                        new BigDecimal(total*0.25).setScale(0, BigDecimal.ROUND_HALF_UP).intValue()};
             case IRON:
                 return new int[]{new BigDecimal(total*0.05).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
                         new BigDecimal(total*0.05).setScale(0, BigDecimal.ROUND_HALF_UP).intValue(),
@@ -237,7 +237,7 @@ public class HexMap {
         return map;
     }
 
-    public Region getRegion() {
+    public static Region getRegion() {
         return region;
     }
 
